@@ -38,9 +38,9 @@ class ConfigProvider
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
             'factories'  => [
-                Handler\SendEmailHandler::class => Handler\SendEmailHandlerFactory::class,
+                Handler\SendEmailHandler::class       => Handler\SendEmailHandlerFactory::class,
                 Handler\SendGridWebhookHandler::class => Handler\SendGridWebhookHandlerFactory::class,
-                LoggerInterface::class => LoggerFactory::class,
+                LoggerInterface::class                => LoggerFactory::class,
             ],
         ];
     }

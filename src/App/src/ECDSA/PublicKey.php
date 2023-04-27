@@ -9,5 +9,4 @@ use AllowDynamicProperties;
 #[AllowDynamicProperties]
 class PublicKey extends \EllipticCurve\PublicKey
 {
-
 }

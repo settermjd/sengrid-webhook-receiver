@@ -14,7 +14,7 @@ class LoggerFactory
     public function __invoke(ContainerInterface $container): LoggerInterface
     {
         $log = new Logger('webhook-logger');
-        $log->pushHandler(new StreamHandler(__DIR__ . '/../../../../data/log/webhook.log' ));
+        $log->pushHandler(new StreamHandler(__DIR__ . '/../../../../data/log/webhook.log'));
 
         return $log;
     }

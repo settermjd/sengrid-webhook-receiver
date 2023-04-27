@@ -12,14 +12,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use SendGrid\EventWebhook\EventWebhook;
 
+use function sprintf;
+
 readonly class SendGridWebhookHandler implements RequestHandlerInterface
 {
-    const HEADER_WEBHOOK_SIGNATURE = 'X-Twilio-Email-Event-Webhook-Signature';
-    const HEADER_WEBHOOK_TIMESTAMP = 'X-Twilio-Email-Event-Webhook-Timestamp';
+    public const HEADER_WEBHOOK_SIGNATURE = 'X-Twilio-Email-Event-Webhook-Signature';
+    public const HEADER_WEBHOOK_TIMESTAMP = 'X-Twilio-Email-Event-Webhook-Timestamp';
 
     public function __construct(private LoggerInterface $logger, private string $publicKey)
     {
-
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -45,10 +46,10 @@ readonly class SendGridWebhookHandler implements RequestHandlerInterface
         }
 
         $requestBody = $request->getBody()->getContents();
-        $signature = $request->getHeaderLine(self::HEADER_WEBHOOK_SIGNATURE);
-        $timestamp = $request->getHeaderLine(self::HEADER_WEBHOOK_TIMESTAMP);
+        $signature   = $request->getHeaderLine(self::HEADER_WEBHOOK_SIGNATURE);
+        $timestamp   = $request->getHeaderLine(self::HEADER_WEBHOOK_TIMESTAMP);
 
-        $eventWebHook = new EventWebhook();
+        $eventWebHook      = new EventWebhook();
         $verifiedSignature = $eventWebHook->verifySignature(
             $eventWebHook->convertPublicKeyToECDSA($this->publicKey),
             $requestBody,
@@ -56,7 +57,7 @@ readonly class SendGridWebhookHandler implements RequestHandlerInterface
             $timestamp
         );
 
-        $message = ($verifiedSignature)
+        $message = $verifiedSignature
             ? 'SendGrid webhook data successfully validated.'
             : 'SendGrid webhook data did not successfully validate.';
         $this->logger->debug($message);

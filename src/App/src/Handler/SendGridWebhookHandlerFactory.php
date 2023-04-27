@@ -17,7 +17,8 @@ class SendGridWebhookHandlerFactory
         $logger = $container->get(LoggerInterface::class);
         assert($logger instanceof LoggerInterface);
 
-        $config = $container->get('config');
+        /** @var array[][] $config */
+        $config    = $container->get('config');
         $publicKey = $config['sendgrid']['webhook']['public_key'] ?? null;
         assert($publicKey !== null);
 
